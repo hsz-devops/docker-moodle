@@ -46,6 +46,7 @@ http://0.0.0.0:8080
 Also you can use the following extra enviromental variables (using `-e` option on `docker run` command):
 
 * For default user:
+
 Variable Name | Default value | Description
 ---- | ------ | ------
 **MOODLE_URL** | http://0.0.0.0 | The url of the site that moodle is setup
@@ -54,6 +55,7 @@ Variable Name | Default value | Description
 **MOODLE_ADMIN_EMAIL** | *admin@example.com* | Administrator's default email.
 
 * For database management:
+
 Variable Name | Default value | Description
 ---- | ------ | ------
 **MOODLE_DB_TYPE** | *mysqli* | The type of the database it can be either *mysqli* or *mariadb* or *pgsql*
