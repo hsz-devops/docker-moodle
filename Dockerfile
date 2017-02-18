@@ -15,12 +15,13 @@ EXPOSE 80
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-# Database info
+#Site Enviromental variables
 ENV MOODLE_URL http://0.0.0.0
 ENV MOODLE_ADMIN admin
 ENV MOODLE_ADMIN_PASSWORD Admin~1234
 ENV MOODLE_ADMIN_EMAIL admin@example.com
 
+# Database enviromental variables
 ENV MOODLE_DB_TYPE 'mysqli'
 ENV MOODLE_DB_HOST ''
 ENV MOODLE_DB_PASSWORD ''
@@ -47,9 +48,9 @@ RUN apt-get update && \
  		docker-php-ext-install mcrypt && \
 		docker-php-ext-install gd && \
 		echo "Installing moodle" && \
-		wget https://download.moodle.org/download.php/direct/stable31/moodle-latest-31.tgz -O /tmp/moodle-latest-31.tgz  && \
+		wget https://download.moodle.org/download.php/direct/stable32/moodle-latest-32.tgz -O /tmp/moodle-latest.tgz  && \
 		rm -rf /var/www/html/index.html && \
-		tar -xvf /tmp/moodle-latest-31.tgz -C /tmp && \
+		tar -xvf /tmp/moodle-latest.tgz -C /tmp && \
 		mkdir /usr/src/moodle && \
 		mv /tmp/moodle/* /usr/src/moodle/ && \
 		chown www-data:www-data -R /usr/src/moodle
