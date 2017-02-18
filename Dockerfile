@@ -28,13 +28,13 @@ ENV MOODLE_DB_USER ''
 ENV MOODLE_DB_NAME ''
 ENV MOODLE_DB_PORT ''
 
-ADD ./entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 
 # Installing php and external tools
 RUN apt-get update && \
-		apt-get -f -y install libghc-postgresql-simple-dev postgresql-client mysql-client pwgen unzip wget libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
+		apt-get -f -y install rsync libghc-postgresql-simple-dev postgresql-client mysql-client pwgen unzip wget libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
 		docker-php-ext-install mysqli && \
 		docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
     docker-php-ext-install pgsql pdo pdo_mysql pdo_pgsql && \
@@ -50,13 +50,15 @@ RUN apt-get update && \
 		wget https://download.moodle.org/download.php/direct/stable31/moodle-latest-31.tgz -O /tmp/moodle-latest-31.tgz  && \
 		rm -rf /var/www/html/index.html && \
 		tar -xvf /tmp/moodle-latest-31.tgz -C /tmp && \
-		mv /tmp/moodle/* /var/www/html/
+		mkdir /usr/src/moodle && \
+		mv /tmp/moodle/* /usr/src/moodle/ && \
+		chown www-data:www-data -R /usr/src/moodle
 
-COPY moodle-config.php /var/www/html/config.php
+COPY moodle-config.php /usr/src/moodle/config.php
 
 
 # Cleanup
 RUN apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/dpkg/* /var/lib/cache/* /var/lib/log/*
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
