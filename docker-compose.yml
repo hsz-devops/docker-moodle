@@ -1,0 +1,28 @@
+version: '2'
+services:
+
+# apache based images
+
+  moodle_mysql_db:
+    image: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ONETIME_PASSWORD: "yes"
+      MYSQL_DATABASE: "${MOODLE_DB_NAME}"
+      MYSQL_USER: '${MOODLE_MYSQL_USER}'
+      MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
+
+  moodle_mysql:
+    build:
+      context: .
+      dockerfile: dockerfiles/apache/Dockerfile_mysql
+    image: ellakcy/moodle:mysql_maria_apache
+    links:
+      - "moodle_mysql_db"
+    ports:
+      - "6080:80"
+    environment:
+      MOODLE_DB_HOST: "moodle_mysql_db"
+      MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
+      MOODLE_DB_USER: '${MOODLE_MYSQL_USER}'
+      MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
