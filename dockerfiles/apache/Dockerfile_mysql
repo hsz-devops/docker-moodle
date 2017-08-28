@@ -25,12 +25,13 @@ ENV DEBIAN_FRONTEND noninteractive \
     MOODLE_DB_PORT ''
 
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
-
+COPY ./scripts/ping_db_and_detect_type.php /usr/local/bin/ping_db.php
 
 # Installing php and external tools
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
+		chmod +x /usr/local/bin/ping_db.php && \
     apt-get update && \
-		apt-get -f -y install rsync libghc-postgresql-simple-dev postgresql-client mysql-client pwgen unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
+		apt-get -f -y install rsync libghc-postgresql-simple-dev pwgen unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
 		docker-php-ext-install mysqli && \
 		docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
     docker-php-ext-install pdo pdo_mysql pdo_pgsql && \

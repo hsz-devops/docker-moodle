@@ -14,18 +14,12 @@ chown -R www-data:www-data /var/moodledata
 chmod 777 /var/moodledata
 
 echo "Setting up database"
-: ${MOODLE_DB_TYPE:='mysqli'}
+MOODLE_DB_TYPE=$(php /usr/local/bin/ping_db.php)
 
 if [ "$MOODLE_DB_TYPE" = "mysqli" ] || [ "$MOODLE_DB_TYPE" = "mariadb" ]; then
 
 : ${MOODLE_DB_HOST:=$DB_PORT_3306_TCP_ADDR}
 : ${MOODLE_DB_PORT:=${DB_PORT_3306_TCP_PORT}}
-
-  echo "Waiting for mysql to start at ${MOODLE_DB_HOST} using port ${MOODLE_DB_PORT}..."
-  while ! mysqladmin ping -h"$MOODLE_DB_HOST" -P $MOODLE_DB_PORT --silent; do
-      echo "Connecting to ${MOODLE_DB_HOST} Failed"
-      sleep 1
-  done
 
   echo "Setting up the database connection info"
 : ${MOODLE_DB_USER:=${DB_ENV_MYSQL_USER:-root}}
@@ -41,13 +35,6 @@ elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
 
 : ${MOODLE_DB_HOST:=$DB_PORT_5432_TCP_ADDR}
 : ${MOODLE_DB_PORT:=${DB_PORT_5432_TCP_PORT}}
-
-  echo "Waiting for postgresql to start at ${MOODLE_DB_HOST} using port ${MOODLE_DB_PORT}..."
-
-  while ! pg_isready -h ${MOODLE_DB_HOST} -p ${MOODLE_DB_PORT} > /dev/null 2> /dev/null; do
-    echo "Connecting to ${MOODLE_DB_HOST} Failed"
-    sleep 1
-  done
 
   echo "Setting up the database connection info"
 
