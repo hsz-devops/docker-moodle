@@ -17,7 +17,7 @@ $dbport=getenv('MOODLE_DB_PORT');
 */
 function gererateDbConnectionString($type,$host,$port,$database) {
 
-  $connectionString=""
+  $connectionString="";
 
   switch($type){
     case 'mysqli':
@@ -75,7 +75,7 @@ try {
   if($dbtype==='mysqli' || $dbtype==='mariadb') {
     echo detectMysqlOrMariaDb($pdo);
   } else {
-    echo 'postgresql'
+    echo 'postgresql';
   }
   exit(0);
 } catch(Exception $e) {

@@ -16,37 +16,38 @@ chmod 777 /var/moodledata
 echo "Setting up database"
 MOODLE_DB_TYPE=$(php /usr/local/bin/ping_db.php)
 
+echo $MOODLE_DB_TYPE
 if [ "$MOODLE_DB_TYPE" = "mysqli" ] || [ "$MOODLE_DB_TYPE" = "mariadb" ]; then
 
-: ${MOODLE_DB_HOST:=$DB_PORT_3306_TCP_ADDR}
-: ${MOODLE_DB_PORT:=${DB_PORT_3306_TCP_PORT}}
+  : ${MOODLE_DB_HOST:=$DB_PORT_3306_TCP_ADDR}
+  : ${MOODLE_DB_PORT:=${DB_PORT_3306_TCP_PORT}}
 
-  echo "Setting up the database connection info"
-: ${MOODLE_DB_USER:=${DB_ENV_MYSQL_USER:-root}}
-: ${MOODLE_DB_NAME:=${DB_ENV_MYSQL_DATABASE:-'moodle'}}
+    echo "Setting up the database connection info"
+  : ${MOODLE_DB_USER:=${DB_ENV_MYSQL_USER:-root}}
+  : ${MOODLE_DB_NAME:=${DB_ENV_MYSQL_DATABASE:-'moodle'}}
 
-  if [ "$MOODLE_DB_USER" = 'root' ]; then
-: ${MOODLE_DB_PASSWORD:=$DB_ENV_MYSQL_ROOT_PASSWORD}
-  else
-: ${MOODLE_DB_PASSWORD:=$DB_ENV_MYSQL_PASSWORD}
-  fi
+    if [ "$MOODLE_DB_USER" = 'root' ]; then
+  : ${MOODLE_DB_PASSWORD:=$DB_ENV_MYSQL_ROOT_PASSWORD}
+    else
+  : ${MOODLE_DB_PASSWORD:=$DB_ENV_MYSQL_PASSWORD}
+    fi
 
 elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
 
-: ${MOODLE_DB_HOST:=$DB_PORT_5432_TCP_ADDR}
-: ${MOODLE_DB_PORT:=${DB_PORT_5432_TCP_PORT}}
+  : ${MOODLE_DB_HOST:=$DB_PORT_5432_TCP_ADDR}
+  : ${MOODLE_DB_PORT:=${DB_PORT_5432_TCP_PORT}}
 
-  echo "Setting up the database connection info"
+    echo "Setting up the database connection info"
 
-: ${MOODLE_DB_NAME:=${DB_ENV_POSTGRES_DB:-'moodle'}}
-: ${MOODLE_DB_USER:=${DB_ENV_POSTGRES_USER}}
-: ${MOODLE_DB_PASSWORD:=$DB_ENV_POSTGRES_PASSWORD}
+  : ${MOODLE_DB_NAME:=${DB_ENV_POSTGRES_DB:-'moodle'}}
+  : ${MOODLE_DB_USER:=${DB_ENV_POSTGRES_USER}}
+  : ${MOODLE_DB_PASSWORD:=$DB_ENV_POSTGRES_PASSWORD}
 
-if [ -z "$MOODLE_DB_PASSWORD" ]; then
-  echo >&2 'error: missing required MOODLE_DB_PASSWORD environment variable'
-  echo >&2 '  Did you forget to -e MOODLE_DB_PASSWORD=... ?'
-  echo >&2
-  exit 1
+  if [ -z "$MOODLE_DB_PASSWORD" ]; then
+    echo >&2 'error: missing required MOODLE_DB_PASSWORD environment variable'
+    echo >&2 '  Did you forget to -e MOODLE_DB_PASSWORD=... ?'
+    echo >&2
+    exit 1
 fi
 
 else
