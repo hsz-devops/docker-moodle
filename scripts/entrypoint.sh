@@ -36,15 +36,15 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
   : ${MOODLE_DB_PASSWORD:=$DB_ENV_MYSQL_PASSWORD}
     fi
 
-
-    for count in {1..10}; do
-      echo "Pingind database"
-      if [ $(nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT}) ]; then
+    echo "Checking if you can nonnect into database server ${MOODLE_DB_HOST}"
+    for count in {1..20}; do
+      echo "Pinging database attempt: "$count
+      if  nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT} ; then
         echo "Can connect into databaze"
         OK=1
         break
       fi
-      sleep 1
+      sleep 5
     done
 
     echo "Is ok? "$OK
@@ -55,6 +55,7 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
       echo "DB Type: "${MOODLE_DB_TYPE}
     else
       echo >&2 "Can't connect into database"
+      # exit 1
     fi
 
 # elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
@@ -68,10 +69,9 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 #   : ${MOODLE_DB_USER:=${DB_ENV_POSTGRES_USER}}
 #   : ${MOODLE_DB_PASSWORD:=$DB_ENV_POSTGRES_PASSWORD}
 
-# else
-#   echo >&2 "This database type is not supported"
-#   echo >&2 "Did you forget to -e MOODLE_DB_TYPE='mysqli' ^OR^ -e MOODLE_DB_TYPE='mariadb' ^OR^ -e MOODLE_DB_TYPE='pgsql' ?"
-#   exit 1
+else
+  echo >&2 "No database support found"
+  exit 1
 fi
 
 # HAS_POSTGRES_SUPPORT=

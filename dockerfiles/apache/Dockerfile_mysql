@@ -2,7 +2,7 @@
 # Forked from Jonathan Hardison's <jmh@jonathanhardison.com> docker version. https://github.com/jmhardison/docker-moodle
 
 FROM  php:7.0-apache
-MAINTAINER Dimitrios Desyllas <ddesyllas@freemail.gr>
+MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 #Original Maintainer Jon Auer <jda@coldshore.com>
 
 ARG VERSION=33
@@ -22,7 +22,7 @@ ENV DEBIAN_FRONTEND noninteractive \
     MOODLE_DB_PASSWORD '' \
     MOODLE_DB_USER '' \
     MOODLE_DB_NAME '' \
-    MOODLE_DB_PORT ''
+    MOODLE_DB_PORT '3306'
 
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
