@@ -8,7 +8,7 @@
 * @return string
 */
 function gererateDbConnectionString($host,$port,$database) {
-  $connectionString="mysql://host=$host;dbname=$database;port=$port";
+  $connectionString="mysql:host=$host;dbname=$database;port=$port";
   return $connectionString;
 }
 
@@ -28,18 +28,18 @@ function detectMysqlOrMariaDb(PDO $pdo){
 /**
 * Connection info
 */
-$host=argparse('MOODLE_DB_HOST');
-$port=argparse('MOODLE_DB_PORT');
-$database=argparse('MOODLE_DB_NAME');
-$username=argparse('MOODLE_DB_USER');
-$password=argparse('MOODLE_DB_PASSWORD');
+$host=getenv('MOODLE_DB_HOST');
+$port=getenv('MOODLE_DB_PORT');
+$database=getenv('MOODLE_DB_NAME');
+$username=getenv('MOODLE_DB_USER');
+$password=getenv('MOODLE_DB_PASSWORD');
 
 try {
   $connectionString=gererateDbConnectionString($host,$port,$database);
   $pdo=new PDO($connectionString,$username,$password);
   echo detectMysqlOrMariaDb($pdo);
-  exit(0)
+  exit(0);
 } catch (PDOExcetion $e) {
   file_put_contents('php://stderr',$e->getMessage(),FILE_APPEND);
-  exit(1)
+  exit(1);
 }
