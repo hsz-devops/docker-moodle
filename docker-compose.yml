@@ -18,7 +18,7 @@ services:
       dockerfile: dockerfiles/apache/Dockerfile_mysql
     image: ellakcy/moodle:mysql_maria_apache
     links:
-      - "moodle_mysql_db"
+      - "moodle_mysql_db:moodle_db"
     ports:
       - "6080:80"
     environment:

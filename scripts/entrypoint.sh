@@ -23,8 +23,8 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 
   echo "Trying for mysql database"
 
-  : ${MOODLE_DB_HOST:=$DB_PORT_3306_TCP_ADDR}
-  : ${MOODLE_DB_PORT:=${DB_PORT_3306_TCP_PORT}}
+  : ${MOODLE_DB_HOST:="moodle_db"}
+  : ${MOODLE_DB_PORT:=3306}
 
     echo "Setting up the database connection info"
   : ${MOODLE_DB_USER:=${DB_ENV_MYSQL_USER:-root}}
@@ -38,15 +38,23 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 
 
     for count in {1..10}; do
+      echo "Pingind database"
       if [ $(nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT}) ]; then
+        echo "Can connect into databaze"
         OK=1
         break
       fi
+      sleep 1
     done
+
+    echo "Is ok? "$OK
 
     if [ $OK -eq 1 ]; then
       MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
+      echo "Database type: "${MOODLE_DB_TYPE}
       echo "DB Type: "${MOODLE_DB_TYPE}
+    else
+      echo >&2 "Can't connect into database"
     fi
 
 # elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
@@ -82,4 +90,4 @@ php /var/www/html/admin/cli/install_database.php \
           --adminpass=${MOODLE_ADMIN_PASSWORD} \
           --agree-license
 
-MOODLE_DB_TYPE exec "$@"
+$MOODLE_DB_TYPE exec "$@"

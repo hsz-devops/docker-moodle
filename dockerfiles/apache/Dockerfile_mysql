@@ -48,9 +48,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh && \
 		mv /tmp/moodle /usr/src/ && \
 		chown www-data:www-data -R /usr/src/moodle && \
 		apt-get purge -y unzip &&\
-		apt-get clean autoclean &&\
 		apt-get autoremove -y &&\
-		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/dpkg/* /var/lib/ cache/* /var/lib/log/*
+		apt-get autoclean &&\
+		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/dpkg/* cache/* /var/lib/log/*
 
 COPY ./scripts/moodle-config.php /usr/src/moodle/config.php
 
