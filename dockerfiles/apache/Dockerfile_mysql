@@ -25,16 +25,13 @@ ENV DEBIAN_FRONTEND noninteractive \
     MOODLE_DB_PORT ''
 
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY ./scripts/ping_db_and_detect_type.php /usr/local/bin/ping_db.php
+COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
 
 # Installing php and external tools
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
-		chmod +x /usr/local/bin/ping_db.php && \
     apt-get update && \
-		apt-get -f -y install --no-install-recommends rsync libghc-postgresql-simple-dev unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
-		docker-php-ext-install mysqli && \
-		docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
-    docker-php-ext-install pdo pdo_mysql pdo_pgsql && \
+		apt-get -f -y install --no-install-recommends rsync netcat unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
+    docker-php-ext-install pdo mysqli  pdo_mysql && \
  		docker-php-ext-install xmlrpc && \
 		docker-php-ext-install mbstring && \
 		docker-php-ext-install zip && \
