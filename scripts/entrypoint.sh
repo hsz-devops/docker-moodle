@@ -52,10 +52,9 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
     if [ $OK -eq 1 ]; then
       MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
       echo "Database type: "${MOODLE_DB_TYPE}
-      echo "DB Type: "${MOODLE_DB_TYPE}
     else
       echo >&2 "Can't connect into database"
-      # exit 1
+      exit 1
     fi
 
 # elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
@@ -84,10 +83,10 @@ if [ -z "$MOODLE_DB_PASSWORD" ]; then
 fi
 
 echo "Installing moodle"
-php /var/www/html/admin/cli/install_database.php \
+MOODLE_DB_TYPE=$MOODLE_DB_TYPE php /var/www/html/admin/cli/install_database.php \
           --adminemail=${MOODLE_ADMIN_EMAIL} \
           --adminuser=${MOODLE_ADMIN} \
           --adminpass=${MOODLE_ADMIN_PASSWORD} \
           --agree-license
 
-$MOODLE_DB_TYPE exec "$@"
+MOODLE_DB_TYPE=$MOODLE_DB_TYPE exec "$@"

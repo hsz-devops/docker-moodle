@@ -18,10 +18,10 @@ function gererateDbConnectionString($host,$port,$database) {
 */
 function detectMysqlOrMariaDb(PDO $pdo){
   $version=$pdo->query('select version()')->fetchColumn();
-  if(preg_match("/^(\d*\.?)*-MariaDB-.*$/g",$version)){
-    return 'mysqli';
-  } else {
+  if(preg_match("/^(\d*\.?)*-MariaDB-.*$/",$version)){
     return 'mariadb';
+  } else {
+    return 'mysqli';
   }
 }
 
