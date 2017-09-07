@@ -17,7 +17,7 @@ echo "Setting up database"
 
 HAS_MySQL_SUPPORT=$(php -m | grep -i mysql | wc -w)
 OK=0
-echo $HAS_MySQL_SUPPORT
+
 
 if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 
@@ -37,14 +37,9 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
     fi
 
     echo "Checking if you can nonnect into database server ${MOODLE_DB_HOST}"
-    for count in {1..20}; do
-      echo "Pinging database attempt: "$count
-      if  nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT} ; then
-        echo "Can connect into databaze"
-        OK=1
-        break
-      fi
-      sleep 5
+    while ! mysqladmin ping -h"$MOODLE_DB_HOST" -P $MOODLE_DB_PORT --silent; do
+      echo "Connecting to ${MOODLE_DB_HOST} Failed"
+      sleep 1
     done
 
     echo "Is ok? "$OK

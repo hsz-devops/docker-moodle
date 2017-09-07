@@ -30,7 +30,7 @@ COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
 # Installing php and external tools
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
     apt-get update && \
-		apt-get -f -y install --no-install-recommends rsync mysql-client netcat unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
+		apt-get -f -y install --no-install-recommends rsync mysql-client unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
     docker-php-ext-install pdo mysqli  pdo_mysql && \
  		docker-php-ext-install xmlrpc && \
 		docker-php-ext-install mbstring && \
