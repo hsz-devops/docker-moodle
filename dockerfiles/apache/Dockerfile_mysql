@@ -1,28 +1,12 @@
 # Dockerfile for moodle instance.
 # Forked from Jonathan Hardison's <jmh@jonathanhardison.com> docker version. https://github.com/jmhardison/docker-moodle
 
-FROM  php:7.0-apache
+FROM  ellakcy/moodle:apache_base
 MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 #Original Maintainer Jon Auer <jda@coldshore.com>
 
-ARG VERSION=33
-
 VOLUME ["/var/moodledata"]
 EXPOSE 80
-
-
-# Let the container know that there is no tty
-ENV DEBIAN_FRONTEND noninteractive \
-		MOODLE_URL http://0.0.0.0 \
-    MOODLE_ADMIN admin \
-    MOODLE_ADMIN_PASSWORD Admin~1234 \
-    MOODLE_ADMIN_EMAIL admin@example.com \
-    MOODLE_DB_TYPE 'mysqli' \
-    MOODLE_DB_HOST '' \
-    MOODLE_DB_PASSWORD '' \
-    MOODLE_DB_USER '' \
-    MOODLE_DB_NAME '' \
-    MOODLE_DB_PORT '3306'
 
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
@@ -30,30 +14,13 @@ COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
 # Installing php and external tools
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
     apt-get update && \
-		apt-get -f -y install --no-install-recommends rsync mysql-client unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
-    docker-php-ext-install pdo mysqli  pdo_mysql && \
- 		docker-php-ext-install xmlrpc && \
-		docker-php-ext-install mbstring && \
-		docker-php-ext-install zip && \
-		docker-php-ext-install xml && \
-		docker-php-ext-install intl && \
- 		docker-php-ext-install soap && \
- 		docker-php-ext-install mcrypt && \
-		docker-php-ext-install gd && \
-		echo "Installing moodle" && \
-		curl https://download.moodle.org/download.php/direct/stable${VERSION}/moodle-latest-${VERSION}.zip -o /tmp/moodle-latest.zip  && \
-		rm -rf /var/www/html/index.html && \
-		cd /tmp &&	unzip /tmp/moodle-latest.zip && cd / \
-		mkdir -p /usr/src/moodle && \
-		mv /tmp/moodle /usr/src/ && \
-		chown www-data:www-data -R /usr/src/moodle && \
-		apt-get purge -y unzip &&\
+		apt-get -f -y install --no-install-recommends mysql-client&&\
+    docker-php-ext-install pdo mysqli  pdo_mysql &&\
 		apt-get autoremove -y &&\
 		apt-get autoclean &&\
 		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* cache/* /var/lib/log/*
 
-COPY ./scripts/moodle-config.php /usr/src/moodle/config.php
 
-
+# Later we may need a different entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]

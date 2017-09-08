@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Event though some containers may not have some support for a specific db
+# We provide a generic entrypoint for better maintainance
+
 echo "Installing moodle"
 
 echo "Moving files into web folder"
@@ -16,9 +19,9 @@ chmod 777 /var/moodledata
 echo "Setting up database"
 
 HAS_MySQL_SUPPORT=$(php -m | grep -i mysql | wc -w)
-OK=0
 
-
+# A cointainer WONT have multi db support
+# Each container will provide support for a specific db only
 if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 
   echo "Trying for mysql database"
@@ -41,8 +44,6 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
       echo "Connecting to ${MOODLE_DB_HOST} Failed"
       sleep 1
     done
-
-    echo "Is ok? "$OK
 
     MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
     echo "Database type: "${MOODLE_DB_TYPE}

@@ -2,7 +2,15 @@ version: '2'
 services:
 
 # apache based images
-# Mysql running variant
+
+  # A base image for apache - based moodle builds
+  moodle_apache_base:
+      build:
+        context: .
+        dockerfile: dockerfiles/apache/Dockerfile_base
+      image: ellakcy/moodle:apache_base
+
+  # Mysql running variant
   moodle_mysql_db:
     image: mysql
     environment:
@@ -19,6 +27,7 @@ services:
     image: ellakcy/moodle:mysql_maria_apache
     links:
       - "moodle_mysql_db:moodle_db"
+      - "moodle_apache_base"
     ports:
       - "6080:80"
     environment:
@@ -30,8 +39,7 @@ services:
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "http://0.0.0.0:6080"
 
-# Testing mariadb
-
+ # Testing mariadb support
   moodle_maria_db:
       image: mariadb
       environment:
