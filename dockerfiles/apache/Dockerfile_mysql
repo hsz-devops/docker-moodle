@@ -50,7 +50,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh && \
 		apt-get purge -y unzip &&\
 		apt-get autoremove -y &&\
 		apt-get autoclean &&\
-		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/dpkg/* cache/* /var/lib/log/*
+		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* cache/* /var/lib/log/*
 
 COPY ./scripts/moodle-config.php /usr/src/moodle/config.php
 

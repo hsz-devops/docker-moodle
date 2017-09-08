@@ -44,13 +44,8 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 
     echo "Is ok? "$OK
 
-    if [ $OK -eq 1 ]; then
-      MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
-      echo "Database type: "${MOODLE_DB_TYPE}
-    else
-      echo >&2 "Can't connect into database"
-      exit 1
-    fi
+    MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
+    echo "Database type: "${MOODLE_DB_TYPE}
 
 # elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
 #
