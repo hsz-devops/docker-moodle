@@ -18,8 +18,11 @@ chmod 777 /var/moodledata
 
 echo "Setting up database"
 
-HAS_MySQL_SUPPORT=$(php -m | grep -i mysql | wc -w)
+HAS_MySQL_SUPPORT=$(php -m | grep -i mysql | grep -v "mysqlnd" | wc -w)
 HAS_POSTGRES_SUPPORT=$(php -m | grep -i pgsql |wc -w)
+
+echo "Postgres: "$HAS_POSTGRES_SUPPORT
+echo "Mysql: "$HAS_MySQL_SUPPORT
 
 # A cointainer WONT have multi db support
 # Each container will provide support for a specific db only
@@ -95,6 +98,10 @@ elif [ $HAS_POSTGRES_SUPPORT -gt 0 ]; then
     sleep 5
   done
 
+  if [ $OK -eq 0 ]; then
+    echo >&2 "Can't connect into database"
+    exit 1
+  fi
 
 else
   echo >&2 "No database support found"

@@ -13,7 +13,7 @@ COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 # Installing php and external tools
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
     apt-get update && \
-    apt-get install -y netcat libghc-postgresql-simple-dev &&\
+    apt-get install -y libghc-postgresql-simple-dev &&\
     docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
     docker-php-ext-install pdo pdo_pgsql &&\
 		apt-get autoremove -y &&\
