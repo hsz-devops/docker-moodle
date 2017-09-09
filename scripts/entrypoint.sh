@@ -19,6 +19,7 @@ chmod 777 /var/moodledata
 echo "Setting up database"
 
 HAS_MySQL_SUPPORT=$(php -m | grep -i mysql | wc -w)
+HAS_POSTGRES_SUPPORT=$()
 
 # A cointainer WONT have multi db support
 # Each container will provide support for a specific db only
