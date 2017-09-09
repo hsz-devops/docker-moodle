@@ -19,7 +19,7 @@ chmod 777 /var/moodledata
 echo "Setting up database"
 
 HAS_MySQL_SUPPORT=$(php -m | grep -i mysql | wc -w)
-HAS_POSTGRES_SUPPORT=$()
+HAS_POSTGRES_SUPPORT=$(php -m | grep -i pgsql |wc -w)
 
 # A cointainer WONT have multi db support
 # Each container will provide support for a specific db only
@@ -42,7 +42,7 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
 
     OK=0
     for count in {1..20}; do
-      echo "Pinging database"
+      echo "Pinging mysql database attempt "${count}
       if  $(nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT}) ; then
         echo "Can connect into databaze"
         OK=1
@@ -71,16 +71,30 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
     # MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
     # echo "Database type: "${MOODLE_DB_TYPE}
 
-# elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
-#
-#   : ${MOODLE_DB_HOST:=$DB_PORT_5432_TCP_ADDR}
-#   : ${MOODLE_DB_PORT:=${DB_PORT_5432_TCP_PORT}}
-#
-#     echo "Setting up the database connection info"
-#
-#   : ${MOODLE_DB_NAME:=${DB_ENV_POSTGRES_DB:-'moodle'}}
-#   : ${MOODLE_DB_USER:=${DB_ENV_POSTGRES_USER}}
-#   : ${MOODLE_DB_PASSWORD:=$DB_ENV_POSTGRES_PASSWORD}
+elif [ $HAS_POSTGRES_SUPPORT -gt 0 ]; then
+
+  MOODLE_DB_TYPE="pgsql"
+
+  : ${MOODLE_DB_HOST:="moodle_db"}
+  : ${MOODLE_DB_PORT:=5432}
+
+    echo "Setting up the database connection info"
+
+  : ${MOODLE_DB_NAME:=${DB_ENV_POSTGRES_DB:-'moodle'}}
+  : ${MOODLE_DB_USER:=${DB_ENV_POSTGRES_USER}}
+  : ${MOODLE_DB_PASSWORD:=$DB_ENV_POSTGRES_PASSWORD}
+
+  OK=0
+  for count in {1..20}; do
+    echo "Pinging postgresql database attempt "${count}
+    if  $(nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT}) ; then
+      echo "Can connect into databaze"
+      OK=1
+      break
+    fi
+    sleep 5
+  done
+
 
 else
   echo >&2 "No database support found"
