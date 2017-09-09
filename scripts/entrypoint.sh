@@ -39,14 +39,36 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
   : ${MOODLE_DB_PASSWORD:=$DB_ENV_MYSQL_PASSWORD}
     fi
 
-    echo "Checking if you can nonnect into database server ${MOODLE_DB_HOST}"
-    while ! mysqladmin ping -h"$MOODLE_DB_HOST" -P $MOODLE_DB_PORT --silent; do
-      echo "Connecting to ${MOODLE_DB_HOST} Failed"
-      sleep 1
+    OK=0
+    for count in {1..20}; do
+      echo "Pinging database"
+      if  $(nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT}) ; then
+        echo "Can connect into databaze"
+        OK=1
+        break
+      fi
+      sleep 5
     done
 
-    MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
-    echo "Database type: "${MOODLE_DB_TYPE}
+    echo "Is ok? "$OK
+
+    if [ $OK -eq 1 ]; then
+      MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
+      echo "Database type: "${MOODLE_DB_TYPE}
+      echo "DB Type: "${MOODLE_DB_TYPE}
+    else
+      echo >&2 "Can't connect into database"
+      exit 1
+    fi
+
+    # echo "Checking if you can nonnect into database server ${MOODLE_DB_HOST}"
+    # while ! mysqladmin ping -h"$MOODLE_DB_HOST" -P $MOODLE_DB_PORT --silent; do
+    #   echo "Connecting to ${MOODLE_DB_HOST} Failed"
+    #   sleep 1
+    # done
+    #
+    # MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
+    # echo "Database type: "${MOODLE_DB_TYPE}
 
 # elif [ "$MOODLE_DB_TYPE" = "pgsql" ]; then
 #

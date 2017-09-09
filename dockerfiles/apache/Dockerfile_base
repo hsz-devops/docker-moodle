@@ -26,7 +26,7 @@ ENV DEBIAN_FRONTEND noninteractive \
 
 # Installing php and external tools
 RUN apt-get update && \
-		apt-get -f -y install --no-install-recommends rsync mysql-client unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
+		apt-get -f -y install --no-install-recommends rsync unzip libxmlrpc-c++8-dev libxml2-dev libpng-dev libicu-dev libmcrypt-dev &&\
     docker-php-ext-install pdo && \
  		docker-php-ext-install xmlrpc && \
 		docker-php-ext-install mbstring && \
