@@ -15,7 +15,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh && \
     apt-get update && \
     apt-get install -y libghc-postgresql-simple-dev &&\
     docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
-    docker-php-ext-install pdo pdo_pgsql &&\
+    docker-php-ext-install pdo pgsql pdo_pgsql &&\
 		apt-get autoremove -y &&\
 		apt-get autoclean &&\
 		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* cache/* /var/lib/log/*
