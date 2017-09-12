@@ -1,11 +1,9 @@
 docker-moodle
 =============
 
-A Docker composition that installs and runs the latest Moodle 3.3 (stable)
-release with an external MySQL or MariaDB database.  It automates the Moodle
-set-up process using predefined default administrator credentials.
+A Docker image that installs and runs the latest Moodle 3.1 stable, with external MySQL/Mariadb Database and automatic installation with a default predefined administrator user.
 
-## Installation
+## Buidling
 
 ```
 git clone https://github.com/ellakcy/docker-moodle.git
@@ -13,16 +11,25 @@ cd docker-moodle
 docker build -t moodle .
 ```
 
-## Usage
+The build will produce the following images for now all images are running apache ang php7.0:
 
-To spawn a new instance of Moodle...
+* `ellakcy/moodle:apache_base` : A base Image where you just can base your own moodle image for the database you want.
+* `ellakcy/moodle:mysql_maria_apache`: An Image where provides moodle installation supporting mysql or mariadb.
+* `ellakcy/moodle:postgresql_apache`:  An Image where provides moodle installation supporting postgresql.
+
+
+## Run
+
+### Manually
+
+To spawn a new instance of Moodle:
 
 * ... using MySQL:
 
-  ```
-  docker run -d --name DB -e MYSQL_DATABASE=moodle -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mysql
-  docker run -d -P --name moodle --link DB:DB -e MOODLE_URL=http://0.0.0.0:8080 -p 8080:80 ellakcy/moodle
-  ```
+```
+docker run -d --name DB -e MYSQL_DATABASE=moodle -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mysql
+docker run -d -P --name moodle --link DB:DB -e MOODLE_URL=http://0.0.0.0:8080 -p 8080:80 ellakcy/moodle:mysql_maria_apache
+```
 
 * ... using MariaDB:
 
@@ -42,15 +49,25 @@ Then you can visit the following URL in a browser to get started:
 
 ```
 http://0.0.0.0:8080
+
 ```
 
-### Env vars
+### Via docker-compose
 
-In addition to the SQL driver you can configure the Moodle installation
-with the env vars listed below.   You can use these with the `-e` option
-of `docker run`.
+You can run all build containers of this repo via:
 
-#### Default user
+```bash
+docker compose up
+```
+
+For production is recomended to create your own `docker-compose.yml` file and provide your own settings. 
+
+
+## Enviromental variables
+
+Also you can use the following extra enviromental variables (using `-e` option on `docker run` command):
+
+### Enviromental Variables for Default user settings:
 
 Variable Name | Default value | Description
 ---- | ------ | ------
@@ -59,32 +76,30 @@ Variable Name | Default value | Description
 `MOODLE_ADMIN_PASSWORD` | *Admin~1234* | The default administrator's password - **CHANGE IN PRODUCTION*~
 `MOODLE_ADMIN_EMAIL` | *admin@example.com* | The default dministrator's email
 
-#### Database management
+### Enviromental Variables for Database settings:
 
 Variable Name | Default value | Description
 ---- | ------ | ------
-`MOODLE_DB_TYPE` | *mysqli* | The type of database; one of: `mysqli`, `mariadb`, `pgsql`
-`MOODLE_DB_HOST` | | The URL the database is hosted at
-`MOODLE_DB_PASSWORD` | | Database user password
-`MOODLE_DB_USER` | | Database username
-`MOODLE_DB_NAME` | | Database name
-`MOODLE_DB_PORT` | | The port the database can be accessed from
+**MOODLE_DB_HOST** | | The url that the database is accessible
+**MOODLE_DB_PASSWORD** | | The password for the database
+**MOODLE_DB_USER** | | The username of the database
+**MOODLE_DB_NAME** | | The database name
+**MOODLE_DB_PORT** | | The port that the database is accessible
 
-If any of these is left blank and the Moodle container is linked with a
-database container, the correct parameters will be automatically detected
-depending on the value of `MOODLE_DB_TYPE`.
+If no value specified and the the container that runs the current docker image is conencted to another database container then depending the value of `MOODLE_DB_TYPE` it will autodetect the correct parameters.
+
 
 ### Volumes
 
-* `/var/moodledata` – Moodle data directory
+For now you can use the following volumes:
+
+* **/var/moodledata** In order to get all the stored  data.
 
 ## Caveats
-
-Support for the following is lacking:
-
-* Moodle cronjobs (should be called from cron container)
-* Log handling (stdout?)
-* Email (does it even send?)
+The following aren't handled, considered, or need work:
+* moodle cronjob (should be called from cron container)
+* log handling (stdout?)
+* email (does it even send?)
 
 ## Credits
 
