@@ -91,3 +91,12 @@ services:
         MOODLE_ADMIN: "${MOODLE_ADMIN}"
         MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
         MOODLE_URL: "http://0.0.0.0:6081"
+
+#Alpine fpm based images
+
+  #Basic alpine fpm image
+  alpine_fpm_base:
+    build:
+      context: .
+      dockerfile: dockerfiles/fpm_alpine/Dockerfile_base
+    image: ellakcy/moodle:alpine_fpm_base
