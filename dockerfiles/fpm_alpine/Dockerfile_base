@@ -40,7 +40,7 @@ RUN \
 		mkdir -p /usr/src/moodle && \
 		mv /tmp/moodle /usr/src/ && \
 		chown www-data:www-data -R /usr/src/moodle && \
-		apk del -y unzip curl &&\
+		apk del unzip curl gcc g++ &&\
     rm -rf /var/cache/apk/*
 
 COPY ./scripts/moodle-config.php /usr/src/moodle/config.php
