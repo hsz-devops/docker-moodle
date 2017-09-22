@@ -7,7 +7,8 @@ MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 # Replace for later version
 ARG VERSION=33
 
-VOLUME ["/var/moodledata"]
+VOLUME "/var/moodledata"
+VOLUME "/var/www/html"
 EXPOSE 80
 
 # Let the container know that there is no tty
