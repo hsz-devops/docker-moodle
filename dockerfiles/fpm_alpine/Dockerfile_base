@@ -9,7 +9,7 @@ ARG VERSION=33
 
 VOLUME "/var/moodledata"
 VOLUME "/var/www/html"
-EXPOSE 80
+EXPOSE 9000
 
 # Let the container know that there is no tty
 ENV \
@@ -26,7 +26,7 @@ ENV \
 
 # Installing php and external tools
 RUN \
-		apk add --update curl rsync unzip netcat-openbsd libxml2-dev icu-dev libmcrypt-dev libpng-dev libjpeg-turbo-dev  &&\
+		apk add --update curl bash rsync unzip netcat-openbsd libxml2-dev icu-dev libmcrypt-dev libpng-dev libjpeg-turbo-dev  &&\
  		docker-php-ext-install xmlrpc && \
 		docker-php-ext-install mbstring && \
 		docker-php-ext-install zip && \
@@ -45,3 +45,5 @@ RUN \
     rm -rf /var/cache/apk/*
 
 COPY ./scripts/moodle-config.php /usr/src/moodle/config.php
+
+ENTRYPOINT [exit]

@@ -132,13 +132,13 @@ services:
     volumes:
       - "moodle_mysql_volume:/var/www/html"
     environment:
-      MOODLE_DB_HOST: "moodle_mysql_db"
+      MOODLE_DB_HOST: "moodle_mysql_alpine_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
       MOODLE_DB_USER: '${MOODLE_MYSQL_USER}'
       MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
-      MOODLE_URL: "http://0.0.0.0:6080"
+      MOODLE_URL: "http://0.0.0.0:7070/moodle_mysql"
 
 volumes:
   moodle_mysql_volume:
