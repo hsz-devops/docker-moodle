@@ -1,7 +1,7 @@
 # Dockerfile for moodle instance.
 # Forked from Jonathan Hardison's <jmh@jonathanhardison.com> docker version. https://github.com/jmhardison/docker-moodle
 
-FROM  ellakcy/moodle:apache_base
+FROM  ellakcy/moodle:alpine_fpm_base
 MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 #Original Maintainer Jon Auer <jda@coldshore.com>
 
@@ -14,7 +14,6 @@ COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
 
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
-    apk add update libmysqlclient-dev &&\
     docker-php-ext-install pdo mysqli pdo_mysql &&\
     rm -rf /var/cache/apk/*
 
