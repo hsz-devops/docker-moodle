@@ -1,14 +1,5 @@
-# Dockerfile for moodle instance.
-# Forked from Jonathan Hardison's <jmh@jonathanhardison.com> docker version. https://github.com/jmhardison/docker-moodle
-
 FROM  ellakcy/moodle:alpine_fpm_base
 MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
-#Original Maintainer Jon Auer <jda@coldshore.com>
-
-ENV DEBIAN_FRONTEND noninteractive
-
-VOLUME ["/var/moodledata"]
-EXPOSE 80
 
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php

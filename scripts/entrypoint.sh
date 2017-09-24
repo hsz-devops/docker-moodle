@@ -6,7 +6,7 @@
 echo "Installing moodle"
 
 echo "Moving files into web folder"
-rsync -rad --chown www-data:www-data /usr/src/moodle/ /var/www/html/
+rsync -rvad --chown www-data:www-data /usr/src/moodle/* /var/www/html/
 
 echo "Fixing files and permissions"
 chown -R www-data:www-data /var/www/html
@@ -65,15 +65,6 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
       exit 1
     fi
 
-    # echo "Checking if you can nonnect into database server ${MOODLE_DB_HOST}"
-    # while ! mysqladmin ping -h"$MOODLE_DB_HOST" -P $MOODLE_DB_PORT --silent; do
-    #   echo "Connecting to ${MOODLE_DB_HOST} Failed"
-    #   sleep 1
-    # done
-    #
-    # MOODLE_DB_TYPE=$(php /opt/detect_mariadb.php)
-    # echo "Database type: "${MOODLE_DB_TYPE}
-
 elif [ $HAS_POSTGRES_SUPPORT -gt 0 ]; then
 
   MOODLE_DB_TYPE="pgsql"
@@ -108,7 +99,6 @@ else
   exit 1
 fi
 
-# HAS_POSTGRES_SUPPORT=
 
 if [ -z "$MOODLE_DB_PASSWORD" ]; then
   echo >&2 'error: missing required MOODLE_DB_PASSWORD environment variable'
