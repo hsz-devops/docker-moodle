@@ -10,7 +10,7 @@ rsync -rvad --chown www-data:www-data /usr/src/moodle/* /var/www/html/
 
 echo "Fixing files and permissions"
 chown -R www-data:www-data /var/www/html
-find /var/www/html -iname "*.php" | xargs chmod +x
+find /var/www/html -iname "*.php" | xargs chmod 655
 
 echo "placeholder" > /var/moodledata/placeholder
 chown -R www-data:www-data /var/moodledata
