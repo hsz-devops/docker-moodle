@@ -94,15 +94,7 @@ services:
 
 #Alpine fpm based images
 
-  nginx:
-   image: nginx:alpine
-   ports:
-     - "7070:80"
-   volumes:
-     - './conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
-     - 'moodle_mysql_volume:/var/www/html_mysql'
-   links:
-     - 'moodle_mysql_alpine'
+
 
   #Basic alpine fpm image
   alpine_fpm_base:
@@ -121,6 +113,18 @@ services:
       MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
 
   # Mysql Enabled image
+
+  nginx:
+   image: nginx:alpine
+   ports:
+     - "7070:80"
+   volumes:
+     - './conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
+   links:
+     - 'moodle_mysql_alpine'
+   volumes_from:
+     - 'moodle_mysql_alpine'
+
   moodle_mysql_alpine:
     build:
       context: .
@@ -129,8 +133,6 @@ services:
     links:
       - "moodle_mysql_alpine_db:moodle_db"
       - "alpine_fpm_base"
-    volumes:
-      - "moodle_mysql_volume:/var/www/html"
     environment:
       MOODLE_DB_HOST: "moodle_mysql_alpine_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
@@ -138,7 +140,4 @@ services:
       MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
-      MOODLE_URL: "http://0.0.0.0:7070/moodle_mysql"
-
-volumes:
-  moodle_mysql_volume:
+      MOODLE_URL: "http://0.0.0.0:7070"
