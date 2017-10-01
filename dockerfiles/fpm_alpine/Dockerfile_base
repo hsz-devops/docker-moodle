@@ -44,6 +44,6 @@ RUN \
 		apk del unzip curl gcc g++ &&\
     rm -rf /var/cache/apk/*
 
-COPY ./scripts/moodle-config.php /usr/src/moodle/config.php
+COPY ./scripts/moodle-config-fpm.php /usr/src/moodle/config.php
 
 ENTRYPOINT [exit]
