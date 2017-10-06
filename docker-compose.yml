@@ -97,7 +97,7 @@ services:
 
 
   #Basic alpine fpm image
-  alpine_fpm_base:
+  moodle_alpine_fpm_base:
     build:
       context: .
       dockerfile: dockerfiles/fpm_alpine/Dockerfile_base
@@ -121,18 +121,18 @@ services:
    volumes:
      - './conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
    links:
-     - 'moodle_mysql_alpine'
+     - 'moodle_alpine_fpm_mysql'
    volumes_from:
-     - 'moodle_mysql_alpine'
+     - 'moodle_alpine_fpm_mysql'
 
-  moodle_mysql_alpine:
+  moodle_alpine_fpm_mysql:
     build:
       context: .
       dockerfile: dockerfiles/fpm_alpine/Dockerfile_mysql
     image: ellakcy/moodle:mysql_maria_fpm_alpine
     links:
       - "moodle_mysql_alpine_db:moodle_db"
-      - "alpine_fpm_base"
+      - "moodle_alpine_fpm_base"
     environment:
       MOODLE_DB_HOST: "moodle_mysql_alpine_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
