@@ -93,9 +93,16 @@ services:
         MOODLE_URL: "http://0.0.0.0:6081"
 
 #Alpine fpm based images
+  #Basic alpine fpm image
+  moodle_alpine_fpm_base:
+    build:
+      context: .
+      dockerfile: dockerfiles/fpm_alpine/Dockerfile_base
+    image: ellakcy/moodle:alpine_fpm_base
 
-  #Nginx serving mysql image
-  nginx:
+  #Mysql variant
+
+  nginx_mysql:
    image: nginx:alpine
    ports:
      - "7070:7070"
@@ -106,14 +113,6 @@ services:
    volumes_from:
      - 'moodle_alpine_fpm_mysql'
 
-  #Basic alpine fpm image
-  moodle_alpine_fpm_base:
-    build:
-      context: .
-      dockerfile: dockerfiles/fpm_alpine/Dockerfile_base
-    image: ellakcy/moodle:alpine_fpm_base
-
-  #Mysql variant
   moodle_mysql_alpine_db:
     image: mysql
     environment:
@@ -131,8 +130,6 @@ services:
     links:
       - "moodle_mysql_alpine_db:moodle_db"
       - "moodle_alpine_fpm_base"
-    volumes:
-      - "./volume:/var/www/html"
     environment:
       MOODLE_DB_HOST: "moodle_mysql_alpine_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
@@ -143,6 +140,18 @@ services:
       MOODLE_URL: "http://0.0.0.0:7070"
 
   #Mariadb for dempnstration
+
+  nginx_maria:
+   image: nginx:alpine
+   ports:
+     - "7071:7071"
+   volumes:
+     - './conf/nginx/nginx_maria.conf:/etc/nginx/nginx.conf:ro'
+   links:
+     - 'moodle_alpine_fpm_mariadb'
+   volumes_from:
+     - 'moodle_alpine_fpm_mariadb'
+
   moodle_mariadb_alpine_db:
     image: mariadb
     environment:
@@ -157,8 +166,6 @@ services:
     links:
       - "moodle_mariadb_alpine_db:moodle_db"
       - "moodle_alpine_fpm_base"
-    volumes:
-      - "./volume:/var/www/html"
     environment:
       MOODLE_DB_HOST: "moodle_mariadb_alpine_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
