@@ -94,22 +94,6 @@ services:
 
 #Alpine fpm based images
 
-  #Basic alpine fpm image
-  moodle_alpine_fpm_base:
-    build:
-      context: .
-      dockerfile: dockerfiles/fpm_alpine/Dockerfile_base
-    image: ellakcy/moodle:alpine_fpm_base
-
-  moodle_mysql_alpine_db:
-    image: mysql
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_ONETIME_PASSWORD: "yes"
-      MYSQL_DATABASE: "${MOODLE_DB_NAME}"
-      MYSQL_USER: '${MOODLE_MYSQL_USER}'
-      MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
-
   #Nginx serving mysql image
   nginx:
    image: nginx:alpine
@@ -122,7 +106,23 @@ services:
    volumes_from:
      - 'moodle_alpine_fpm_mysql'
 
-  # Mysql Enabled image
+  #Basic alpine fpm image
+  moodle_alpine_fpm_base:
+    build:
+      context: .
+      dockerfile: dockerfiles/fpm_alpine/Dockerfile_base
+    image: ellakcy/moodle:alpine_fpm_base
+
+  #Mysql variant
+  moodle_mysql_alpine_db:
+    image: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ONETIME_PASSWORD: "yes"
+      MYSQL_DATABASE: "${MOODLE_DB_NAME}"
+      MYSQL_USER: '${MOODLE_MYSQL_USER}'
+      MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
+
   moodle_alpine_fpm_mysql:
     build:
       context: .
@@ -141,3 +141,29 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "http://0.0.0.0:7070"
+
+  #Mariadb for dempnstration
+  moodle_mariadb_alpine_db:
+    image: mariadb
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ONETIME_PASSWORD: "yes"
+      MYSQL_DATABASE: "${MOODLE_DB_NAME}"
+      MYSQL_USER: '${MOODLE_MYSQL_USER}'
+      MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
+
+  moodle_alpine_fpm_mariadb:
+    image: ellakcy/moodle:mysql_maria_fpm_alpine
+    links:
+      - "moodle_mariadb_alpine_db:moodle_db"
+      - "moodle_alpine_fpm_base"
+    volumes:
+      - "./volume:/var/www/html"
+    environment:
+      MOODLE_DB_HOST: "moodle_mariadb_alpine_db"
+      MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
+      MOODLE_DB_USER: '${MOODLE_MYSQL_USER}'
+      MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
+      MOODLE_ADMIN: "${MOODLE_ADMIN}"
+      MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
+      MOODLE_URL: "http://0.0.0.0:7071"
