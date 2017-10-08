@@ -146,7 +146,7 @@ services:
    ports:
      - "7071:7071"
    volumes:
-     - './conf/nginx/nginx_maria.conf:/etc/nginx/nginx.conf:ro'
+     - './conf/nginx/nginx_mariadb.conf:/etc/nginx/nginx.conf:ro'
    links:
      - 'moodle_alpine_fpm_mariadb'
    volumes_from:
