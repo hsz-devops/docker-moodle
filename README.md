@@ -139,8 +139,8 @@ If no value specified and the the container that runs the current docker image i
 
 For now you can use the following volumes:
 
-* **/var/moodledata** In order to get all the stored  data.
-
+* **/var/moodledata**: In order to get all the stored  data.
+* **/var/www/html**:  Containing the moodle's application code **fpm-0based images only**
 
 ## Caveats
 The following aren't handled, considered, or need work:
