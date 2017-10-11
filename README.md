@@ -13,18 +13,21 @@ docker-compose build --no-cache --force-rm .
 
 The build will produce the following images for now all images are running apache ang php7.0:
 
-* `ellakcy/moodle:apache_base` : A base Image where you just can base your own moodle image for the database you want.
+* `ellakcy/moodle:apache_base` : A base image over apache, where you just can base your own moodle image for the database you want.
 * `ellakcy/moodle:mysql_maria_apache`: An Image where provides moodle installation supporting mysql or mariadb.
 * `ellakcy/moodle:postgresql_apache`:  An Image where provides moodle installation supporting postgresql.
-
+* `ellakcy/moodle:mysql_maria_fpm_alpine`: An alpine based image using fpm supporting mysql and mariadb.
+* `ellakcy/moodle:alpine_fpm_base`: A base image over alpine and fpm, where you just can base your own moodle image for the database you want.
 
 ## Run
 
 ### Manually
 
+#### Apache based solutions
+
 To spawn a new instance of Moodle:
 
-* Using mysql or mariadb:
+* Using mysql:
 
 ```
 docker run -d --name DB -e MYSQL_DATABASE=moodle -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mysql
@@ -52,7 +55,13 @@ http://0.0.0.0:8080
 
 ```
 
+### Alpine and Fpm based solutions
+
+For fpm solutions is recomended to use docker-compose.
+
 ### Via docker-compose
+
+#### All available images and varieties
 
 You can run all build containers of this repo via:
 
@@ -60,8 +69,45 @@ You can run all build containers of this repo via:
 docker compose up
 ```
 
-For production is recomended to create your own `docker-compose.yml` file and provide your own settings. 
+For production is recomended to create your own `docker-compose.yml` file and provide your own settings.
 
+#### Apache based solutions
+
+* Mysql variant
+
+You can run all build containers of this repo via:
+
+```bash
+docker compose up moodle_mysql moodle_mysql_db
+```
+
+* Mariadb variant (uses the very same image)
+
+```bash
+docker compose up moodle_maria_db moodle_maria
+```
+
+* Postgresql variant
+
+```bash
+docker compose up moodle_psql_db moodle_psql
+```
+
+For production is recomended to create your own `docker-compose.yml` file and provide your own settings.
+
+#### Alpine with fpm based solutions
+
+* Mysql variant
+
+```bash
+docker-compose up nginx_mysql moodle_mysql_alpine_db moodle_alpine_fpm_mysql
+```
+
+* Mariadb variant
+
+```bash
+docker-compose up nginx_maria moodle_mariadb_alpine_db moodle_alpine_fpm_mariadb
+```
 
 ## Enviromental variables
 
