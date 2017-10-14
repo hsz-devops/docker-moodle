@@ -13,14 +13,18 @@ docker build -t moodle .
 
 The build will produce the following images for now all images are running apache ang php7.0:
 
-* `ellakcy/moodle:apache_base` : A base Image where you just can base your own moodle image for the database you want.
-* `ellakcy/moodle:mysql_maria_apache`: An Image where provides moodle installation supporting mysql or mariadb.
-* `ellakcy/moodle:postgresql_apache`:  An Image where provides moodle installation supporting postgresql.
-
+* `ellakcy/moodle:apache_base` : A base image over apache, where you just can base your own moodle image for the database you want.
+* `ellakcy/moodle:mysql_maria_apache`: An image where provides moodle installation supporting mysql or mariadb.
+* `ellakcy/moodle:postgresql_apache`:  An image where provides moodle installation supporting postgresql.
+* `ellakcy/moodle:alpine_fpm_base`: A base image over alpine and fpm, where you just can base your own moodle image for the database you want.
+* `ellakcy/moodle:mysql_maria_fpm_alpine`: An alpine-based image using fpm supporting mysql and mariadb.
+* `ellakcy/moodle:postgresql_fpm_alpine`: An alpine-based image using fpm supporting postgresql.
 
 ## Run
 
-### Manually
+### Running images manually
+
+#### Apache based solutions
 
 To spawn a new instance of Moodle:
 
@@ -52,7 +56,13 @@ http://0.0.0.0:8080
 
 ```
 
+### Alpine with Fpm based solutions
+
+For fpm solutions is recomended to use docker-compose.
+
 ### Via docker-compose
+
+#### All available images and varieties
 
 You can run all build containers of this repo via:
 
@@ -60,8 +70,81 @@ You can run all build containers of this repo via:
 docker compose up
 ```
 
-For production is recomended to create your own `docker-compose.yml` file and provide your own settings. 
+For production is recomended to create your own `docker-compose.yml` file and provide your own settings.
 
+#### Apache based solutions
+
+* Mysql variant
+
+You can run all build containers of this repo via:
+
+```bash
+docker compose up moodle_mysql moodle_mysql_db
+```
+
+* Mariadb variant (uses the very same image)
+
+```bash
+docker compose up moodle_maria_db moodle_maria
+```
+
+* Postgresql variant
+
+```bash
+docker compose up moodle_psql_db moodle_psql
+```
+
+For production is recomended to create your own `docker-compose.yml` file and provide your own settings.
+
+Then you can visit the following urls depending the database - image variant - you want to test:
+
+Variant (database using) | Docker image | url
+--- | --- | ---
+mysql | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:6080
+mariadb | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:6081
+postgresql | `ellakcy/moodle:postgresql_apache` | http://0.0.0.0:6082
+
+You can login with the following credentials (development, testing & demonstration purpoces):
+
+\*\*\* | \*\*\*  
+--- | ---
+**Usernane:** | *admin*
+**Password:** | *Admin~1234*
+
+#### Alpine with fpm based solutions
+
+* Mysql variant
+
+```bash
+docker-compose up nginx_mysql moodle_mysql_alpine_db moodle_alpine_fpm_mysql
+```
+
+* Mariadb variant
+
+```bash
+docker-compose up nginx_maria moodle_mariadb_alpine_db moodle_alpine_fpm_mariadb
+```
+
+* Postgresql variant
+
+```bash
+docker-compose up nginx_pgsql moodle_psql_alpine_db moodle_alpine_fpm_psql
+```
+
+Then you can visit the following urls depending the database - image variant - you want to test:
+
+Variant (database using) | Docker image | url
+--- | --- | ---
+mysql | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:7070
+mariadb | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:7071
+postgresql | `ellakcy/moodle:postgresql_apache` | http://0.0.0.0:7072
+
+You can login with the following credentials (development, testing & demonstration purpoces):
+
+\*\*\* | \*\*\*  
+--- | ---
+**Usernane:** | *admin*
+**Password:** | *Admin~1234*
 
 ## Enviromental variables
 
@@ -85,8 +168,6 @@ Variable Name | Default value | Description
 **MOODLE_DB_USER** | | The username of the database
 **MOODLE_DB_NAME** | | The database name
 **MOODLE_DB_PORT** | | The port that the database is accessible
-
-If no value specified and the the container that runs the current docker image is conencted to another database container then depending the value of `MOODLE_DB_TYPE` it will autodetect the correct parameters.
 
 
 ### Volumes
