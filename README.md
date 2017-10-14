@@ -8,20 +8,21 @@ A Docker image that installs and runs the latest Moodle 3.1 stable, with externa
 ```
 git clone https://github.com/ellakcy/docker-moodle.git
 cd docker-moodle
-docker-compose build --no-cache --force-rm .
+docker-compose build --no-cache --force-rm
 ```
 
 The build will produce the following images for now all images are running apache ang php7.0:
 
 * `ellakcy/moodle:apache_base` : A base image over apache, where you just can base your own moodle image for the database you want.
-* `ellakcy/moodle:mysql_maria_apache`: An Image where provides moodle installation supporting mysql or mariadb.
-* `ellakcy/moodle:postgresql_apache`:  An Image where provides moodle installation supporting postgresql.
-* `ellakcy/moodle:mysql_maria_fpm_alpine`: An alpine based image using fpm supporting mysql and mariadb.
+* `ellakcy/moodle:mysql_maria_apache`: An image where provides moodle installation supporting mysql or mariadb.
+* `ellakcy/moodle:postgresql_apache`:  An image where provides moodle installation supporting postgresql.
 * `ellakcy/moodle:alpine_fpm_base`: A base image over alpine and fpm, where you just can base your own moodle image for the database you want.
+* `ellakcy/moodle:mysql_maria_fpm_alpine`: An alpine-based image using fpm supporting mysql and mariadb.
+* `ellakcy/moodle:postgresql_fpm_alpine`: An alpine-based image using fpm supporting postgresql.
 
 ## Run
 
-### Manually
+### Running images manually
 
 #### Apache based solutions
 
@@ -55,7 +56,7 @@ http://0.0.0.0:8080
 
 ```
 
-### Alpine and Fpm based solutions
+### Alpine with Fpm based solutions
 
 For fpm solutions is recomended to use docker-compose.
 
@@ -95,6 +96,21 @@ docker compose up moodle_psql_db moodle_psql
 
 For production is recomended to create your own `docker-compose.yml` file and provide your own settings.
 
+Then you can visit the following urls depending the database - image variant - you want to test:
+
+Variant (database using) | Docker image | url
+--- | --- | ---
+mysql | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:6080
+mariadb | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:6081
+postgresql | `ellakcy/moodle:postgresql_apache` | http://0.0.0.0:6082
+
+You can login with the following credentials (development, testing & demonstration purpoces):
+
+\*\*\* | \*\*\*  
+--- | ---
+**Usernane:** | *admin*
+**Password:** | *Admin~1234*
+
 #### Alpine with fpm based solutions
 
 * Mysql variant
@@ -108,6 +124,27 @@ docker-compose up nginx_mysql moodle_mysql_alpine_db moodle_alpine_fpm_mysql
 ```bash
 docker-compose up nginx_maria moodle_mariadb_alpine_db moodle_alpine_fpm_mariadb
 ```
+
+* Postgresql variant
+
+```bash
+docker-compose up nginx_pgsql moodle_psql_alpine_db moodle_alpine_fpm_psql
+```
+
+Then you can visit the following urls depending the database - image variant - you want to test:
+
+Variant (database using) | Docker image | url
+--- | --- | ---
+mysql | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:7070
+mariadb | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:7071
+postgresql | `ellakcy/moodle:postgresql_apache` | http://0.0.0.0:7072
+
+You can login with the following credentials (development, testing & demonstration purpoces):
+
+\*\*\* | \*\*\*  
+--- | ---
+**Usernane:** | *admin*
+**Password:** | *Admin~1234*
 
 ## Enviromental variables
 
@@ -132,15 +169,13 @@ Variable Name | Default value | Description
 **MOODLE_DB_NAME** | | The database name
 **MOODLE_DB_PORT** | | The port that the database is accessible
 
-If no value specified and the the container that runs the current docker image is conencted to another database container then depending the value of `MOODLE_DB_TYPE` it will autodetect the correct parameters.
-
 
 ### Volumes
 
 For now you can use the following volumes:
 
-* **/var/moodledata**: In order to get all the stored  data.
-* **/var/www/html**:  Containing the moodle's application code **fpm-0based images only**
+* **/var/moodledata**: In order to get all the stored data.
+* **/var/www/html**:  Containing the moodle's application code **alpine-fpm-based images only**
 
 ## Caveats
 The following aren't handled, considered, or need work:

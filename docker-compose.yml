@@ -197,7 +197,7 @@ services:
       build:
         context: .
         dockerfile: dockerfiles/fpm_alpine/Dockerfile_postgresql
-      image: ellakcy/moodle:psql_fpm_alpine
+      image: ellakcy/moodle:postgresql_fpm_alpine
       links:
         - "moodle_psql_alpine_db:moodle_db"
         - "moodle_alpine_fpm_base"
