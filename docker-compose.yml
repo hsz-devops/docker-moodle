@@ -189,11 +189,9 @@ services:
   moodle_psql_alpine_db:
       image: postgres
       environment:
-        MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-        MYSQL_ONETIME_PASSWORD: "yes"
-        MYSQL_DATABASE: "${MOODLE_DB_NAME}"
-        MYSQL_USER: '${MOODLE_MYSQL_USER}'
-        MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
+        POSTGRES_DB: "${MOODLE_DB_NAME}"
+        POSTGRES_USER: '${MOODLE_MYSQL_USER}'
+        POSTGRES_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
 
   moodle_alpine_fpm_psql:
       build:
