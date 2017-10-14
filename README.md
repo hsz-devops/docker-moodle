@@ -1,11 +1,11 @@
 docker-moodle
 =============
 
-A Docker image that installs and runs the latest Moodle 3.1 stable, with external MySQL, Mariadb or Postgresql Database and automated installation with a default predefined administrator user.
+A Docker image that installs and runs the latest Moodle 3.3 stable, with external MySQL, Mariadb or Postgresql Database and automated installation with a default predefined administrator user. Also all the images are availalbe via [docker hub]()
 
 ## Buidling
 
-```
+```bash
 git clone https://github.com/ellakcy/docker-moodle.git
 cd docker-moodle
 docker-compose build --no-cache --force-rm
