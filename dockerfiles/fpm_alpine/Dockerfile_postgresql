@@ -1,0 +1,13 @@
+FROM  ellakcy/moodle:alpine_fpm_base
+MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
+
+COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
+
+RUN chmod +x /usr/local/bin/entrypoint.sh && \
+    docker-php-ext-install pdo psql pdo_psql &&\
+    rm -rf /var/cache/apk/*
+
+# Later we may need a different entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["php-fpm"]

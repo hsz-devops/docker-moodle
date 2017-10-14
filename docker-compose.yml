@@ -140,7 +140,6 @@ services:
       MOODLE_URL: "http://0.0.0.0:7070"
 
   #Mariadb for dempnstration
-
   nginx_maria:
    image: nginx:alpine
    ports:
@@ -174,3 +173,41 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "http://0.0.0.0:7071"
+
+    #Postgresql
+  nginx_pgsql:
+      image: nginx:alpine
+      ports:
+        - "7072:7072"
+      volumes:
+        - './conf/nginx/nginx_psql.conf:/etc/nginx/nginx.conf:ro'
+      links:
+        - 'moodle_alpine_fpm_psql'
+      volumes_from:
+        - 'moodle_alpine_fpm_psql'
+
+  moodle_psql_alpine_db:
+      image: postgres
+      environment:
+        MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+        MYSQL_ONETIME_PASSWORD: "yes"
+        MYSQL_DATABASE: "${MOODLE_DB_NAME}"
+        MYSQL_USER: '${MOODLE_MYSQL_USER}'
+        MYSQL_PASSWORD: '${MOODLE_MYSQL_PASSWORD}'
+
+  moodle_alpine_fpm_psql:
+      build:
+        context: .
+        dockerfile: dockerfiles/fpm_alpine/Dockerfile_postgrtesql
+      image: ellakcy/moodle:psql_fpm_alpine
+      links:
+        - "moodle_psql_alpine_db:moodle_db"
+        - "moodle_alpine_fpm_base"
+      environment:
+        MOODLE_DB_HOST: "moodle_psql_alpine_db"
+        MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
+        MOODLE_DB_USER: '${MOODLE_MYSQL_USER}'
+        MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
+        MOODLE_ADMIN: "${MOODLE_ADMIN}"
+        MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
+        MOODLE_URL: "http://0.0.0.0:7072"
