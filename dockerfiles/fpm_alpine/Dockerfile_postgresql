@@ -5,7 +5,8 @@ COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./scripts/detect_mariadb.php /opt/detect_mariadb.php
 
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
-    docker-php-ext-install pdo psql pdo_psql &&\
+    apk add --update postgresql-dev &&\
+    docker-php-ext-install pdo pgsql pdo_pgsql &&\
     rm -rf /var/cache/apk/*
 
 # Later we may need a different entrypoint
