@@ -271,17 +271,36 @@ $CFG->admin = 'admin';
 // The next lines are needed both for bounce handling and any other email to module processing.
 // mailprefix must be EXACTLY four characters.
 // Uncomment and customise this block for Postfix
-//      $CFG->mailprefix = 'mdl+'; // + is the separator for Exim and Postfix.
-//      $CFG->mailprefix = 'mdl-'; // - is the separator for qmail
-//      $CFG->maildomain = 'youremaildomain.com';
+
+
+$host=getenv(MOODLE_EMAIL_HOST);
+$mail_type_qmail=filter_var(getenv(MOODLE_EMAIL_TYPE_QMAIL),FILTER_VALIDATE_BOOLEAN)
+
+if($host){
+
+  if($mail_type==='qmail') {
+    $CFG->mailprefix = 'mdl-'; // - is the separator for qmail
+  } else {
+    $CFG->mailprefix = 'mdl+'; // + is the separator for Exim and Postfix.
+  }
+
+  $CFG->maildomain = getenv(MOODLE_EMAIL_HOST);
+}
+
 //
 // Enable when setting up advanced reverse proxy load balancing configurations,
-// it may be also necessary to enable this when using port forwarding.
-//      $CFG->reverseproxy = true;
+// it may be also necessary to enable this when using port forwarding.``
+if(filtet_var(getenv(MOODLE_REVERSE_LB),FILTER_VALIDATE_BOOLEAN)){
+  $CFG->reverseproxy = true;
+}
+
 //
 // Enable when using external SSL appliance for performance reasons.
 // Please note that site may be accessible via https: or https:, but not both!
-//     $CFG->sslproxy = true;
+if(filter_var(getenv(MOODLE_SSL),FILTER_VALIDATE_BOOLEAN)){
+     $CFG->sslproxy = true;
+}
+
 //
 // This setting will cause the userdate() function not to fix %d in
 // date strings, and just let them show with a zero prefix.

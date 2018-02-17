@@ -6,7 +6,7 @@ MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 #Original Maintainer Jon Auer <jda@coldshore.com>
 
 # Replace for later version
-ARG VERSION=33
+ARG VERSION=34
 
 VOLUME ["/var/moodledata"]
 EXPOSE 80

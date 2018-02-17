@@ -169,6 +169,17 @@ Variable Name | Default value | Description
 **MOODLE_DB_NAME** | | The database name
 **MOODLE_DB_PORT** | | The port that the database is accessible
 
+### Enviromental Variables for Email settings
+
+Variable Name | Default value | Description
+---- | ------ | ------
+**MOODLE_EMAIL_TYPE_QMAIL** | false | Whether will use qmail as email (MTA)[https://en.wikipedia.org/wiki/Message_transfer_agent].
+**MOODLE_EMAIL_HOST** | | The host of the smtp server. If non provided then it won't send emails.
+
+## Enviromental Variables for reverse proxy
+
+**MOODLE_REVERSE_LB** | false | Whether the moodle rins behind a load balancer or not.
+**MOODLE_SSL** | false | Whether the moodle runs behind an ssl-enabled load balancer.
 
 ### Volumes
 
