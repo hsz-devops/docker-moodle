@@ -188,11 +188,30 @@ For now you can use the following volumes:
 * **/var/moodledata**: In order to get all the stored data.
 * **/var/www/html**:  Containing the moodle's application code **alpine-fpm-based images only**
 
+
 ## Caveats
+
+### Moodle related
+
 The following aren't handled, considered, or need work:
 * moodle cronjob (should be called from cron container)
 * log handling (stdout?)
 * email (does it even send?)
+
+### Docker related
+
+Also in case of an arror that mentions:
+
+```
+UnixHTTPConnectionPool(host='localhost', port=None): Read timed out. (read timeout=60)
+```
+
+Export the following enviromental variables:
+
+```
+export DOCKER_CLIENT_TIMEOUT=120
+export COMPOSE_HTTP_TIMEOUT=120
+```
 
 ## Credits
 
