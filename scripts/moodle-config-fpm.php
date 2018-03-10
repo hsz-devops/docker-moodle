@@ -293,7 +293,7 @@ $CFG->xsendfilealiases = array(
 //
 // Enable when setting up advanced reverse proxy load balancing configurations,
 // it may be also necessary to enable this when using port forwarding.``
-if(filtet_var(getenv(MOODLE_REVERSE_LB),FILTER_VALIDATE_BOOLEAN)){
+if(filter_var(getenv(MOODLE_REVERSE_LB),FILTER_VALIDATE_BOOLEAN)){
   $CFG->reverseproxy = true;
 }
 

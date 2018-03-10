@@ -224,9 +224,16 @@ services:
       - "6444:6444"
       - "6445:6445"
       - "6446:6446"
+    links:
+      - 'moodle_mysql_reverse'
+      - 'moodle_maria_reverse'
+      - 'moodle_psql_reverse'
+      - 'nginx_mysql_reverse'
+      - 'nginx_maria_reverse'
+      - 'nginx_pgsql_reverse'
     volumes:
       - './conf/nginx/nginx_ssl_reverse.conf:/etc/nginx/nginx.conf:ro'
-      - './conf/nginx/certs:/etc/nginx/certs:ro'
+      - './conf/certs:/etc/nginx/certs:ro'
 
 ##################### Images for test ##########################################
 
