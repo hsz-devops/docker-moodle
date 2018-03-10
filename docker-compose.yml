@@ -261,7 +261,7 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "https://0.0.0.0:6440"
-      MOODLE_REVERSE_LB: "true"
+      MOODLE_REVERSE_LB: "false"
       MOODLE_SSL: "true"
 
   # postgresql running variant
@@ -288,7 +288,7 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "https://0.0.0.0:6441"
-      MOODLE_REVERSE_LB: "true"
+      MOODLE_REVERSE_LB: "false"
       MOODLE_SSL: "true"
 
   # Testing mariadb support
@@ -313,8 +313,8 @@ services:
         MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
         MOODLE_ADMIN: "${MOODLE_ADMIN}"
         MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
-        MOODLE_URL: "http://0.0.0.0:6442"
-        MOODLE_REVERSE_LB: "true"
+        MOODLE_URL: "https://0.0.0.0:6442"
+        MOODLE_REVERSE_LB: "false"
         MOODLE_SSL: "true"
 
 ########################### Alpine fpm based images ############################
@@ -356,7 +356,7 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "https://0.0.0.0:6445"
-      MOODLE_REVERSE_LB: "true"
+      MOODLE_REVERSE_LB: "false"
       MOODLE_SSL: "true"
 
   #Mariadb for dempnstration
@@ -393,7 +393,7 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "http://0.0.0.0:6444"
-      MOODLE_REVERSE_LB: "true"
+      MOODLE_REVERSE_LB: "false"
       MOODLE_SSL: "true"
 
   #Postgresql
@@ -431,5 +431,5 @@ services:
         MOODLE_ADMIN: "${MOODLE_ADMIN}"
         MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
         MOODLE_URL: "http://0.0.0.0:6446"
-        MOODLE_REVERSE_LB: "true"
+        MOODLE_REVERSE_LB: "false"
         MOODLE_SSL: "true"
