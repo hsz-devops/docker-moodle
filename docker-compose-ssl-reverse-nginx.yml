@@ -71,7 +71,6 @@ services:
     image: ellakcy/moodle:postgresql_apache
     links:
       - "moodle_psql_db_reverse:moodle_db"
-      - "moodle_apache_base"
     environment:
       MOODLE_DB_HOST: "moodle_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
@@ -119,9 +118,9 @@ services:
    volumes:
      - './conf/nginx/nginx_mysql.conf:/etc/nginx/nginx.conf:ro'
    links:
-     - 'moodle_alpine_fpm_mysql'
+     - 'moodle_alpine_fpm_mysql_reverse'
    volumes_from:
-     - 'moodle_alpine_fpm_mysql'
+     - 'moodle_alpine_fpm_mysql_reverse'
 
   moodle_mysql_alpine_db_reverse:
     image: mysql
@@ -139,7 +138,6 @@ services:
     image: ellakcy/moodle:mysql_maria_fpm_alpine
     links:
       - "moodle_mysql_alpine_db_reverse:moodle_db"
-      - "moodle_alpine_fpm_base"
     environment:
       MOODLE_DB_HOST: "moodle_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
@@ -176,7 +174,6 @@ services:
     image: ellakcy/moodle:mysql_maria_fpm_alpine
     links:
       - "moodle_mariadb_alpine_db_reverse:moodle_db"
-      - "moodle_alpine_fpm_base"
     environment:
       MOODLE_DB_HOST: "moodle_db"
       MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
@@ -196,9 +193,9 @@ services:
       volumes:
         - './conf/nginx/nginx_psql.conf:/etc/nginx/nginx.conf:ro'
       links:
-        - 'moodle_alpine_fpm_psql'
+        - 'moodle_alpine_fpm_psql_reverse'
       volumes_from:
-        - 'moodle_alpine_fpm_psql'
+        - 'moodle_alpine_fpm_psql_reverse'
 
   moodle_psql_alpine_db_reverse:
       image: postgres
@@ -214,7 +211,6 @@ services:
       image: ellakcy/moodle:postgresql_fpm_alpine
       links:
         - "moodle_psql_alpine_db_reverse:moodle_db"
-        - "moodle_alpine_fpm_base"
       environment:
         MOODLE_DB_HOST: "moodle_db"
         MOODLE_DB_NAME: "${MOODLE_DB_NAME}"
