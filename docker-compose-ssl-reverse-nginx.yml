@@ -23,6 +23,7 @@ services:
       - 'nginx_mysql_reverse'
       - 'nginx_maria_reverse'
       - 'nginx_pgsql_reverse'
+    restart: always
     volumes:
       - './conf/nginx/nginx_ssl_reverse.conf:/etc/nginx/nginx.conf:ro'
       - './conf/certs:/etc/nginx/certs:ro'
@@ -116,7 +117,7 @@ services:
    ports:
      - "6070:6070"
    volumes:
-     - './conf/nginx/nginx_mysql.conf:/etc/nginx/nginx.conf:ro'
+     - './conf/nginx/nginx_mysql_reverse.conf:/etc/nginx/nginx.conf:ro'
    links:
      - 'moodle_alpine_fpm_mysql_reverse'
    volumes_from:
@@ -155,7 +156,7 @@ services:
    ports:
      - "6071:6071"
    volumes:
-     - './conf/nginx/nginx_mariadb.conf:/etc/nginx/nginx.conf:ro'
+     - './conf/nginx/nginx_mariadb_reverse.conf:/etc/nginx/nginx.conf:ro'
    links:
      - 'moodle_alpine_fpm_mariadb_reverse'
    volumes_from:
@@ -181,7 +182,7 @@ services:
       MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
-      MOODLE_URL: "http://0.0.0.0:6444"
+      MOODLE_URL: "https://0.0.0.0:6444"
       MOODLE_REVERSE_LB: "false"
       MOODLE_SSL: "true"
 
@@ -191,7 +192,7 @@ services:
       ports:
         - "6072:6072"
       volumes:
-        - './conf/nginx/nginx_psql.conf:/etc/nginx/nginx.conf:ro'
+        - './conf/nginx/nginx_psql_reverse.conf:/etc/nginx/nginx.conf:ro'
       links:
         - 'moodle_alpine_fpm_psql_reverse'
       volumes_from:
@@ -218,6 +219,6 @@ services:
         MOODLE_DB_PASSWORD: "${MOODLE_MYSQL_PASSWORD}"
         MOODLE_ADMIN: "${MOODLE_ADMIN}"
         MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
-        MOODLE_URL: "http://0.0.0.0:6446"
+        MOODLE_URL: "https://0.0.0.0:6446"
         MOODLE_REVERSE_LB: "false"
         MOODLE_SSL: "true"
