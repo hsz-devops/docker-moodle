@@ -106,7 +106,7 @@ services:
         MOODLE_ADMIN: "${MOODLE_ADMIN}"
         MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
         MOODLE_URL: "https://0.0.0.0:6442"
-        MOODLE_REVERSE_LB: "false"
+        MOODLE_REVERSE_LB: "true"
         MOODLE_SSL: "true"
 
 ########################### Alpine fpm based images ############################
@@ -147,7 +147,7 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "https://0.0.0.0:6445"
-      MOODLE_REVERSE_LB: "false"
+      MOODLE_REVERSE_LB: "true"
       MOODLE_SSL: "true"
 
   #Mariadb for dempnstration
@@ -183,7 +183,7 @@ services:
       MOODLE_ADMIN: "${MOODLE_ADMIN}"
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "https://0.0.0.0:6444"
-      MOODLE_REVERSE_LB: "false"
+      MOODLE_REVERSE_LB: "true"
       MOODLE_SSL: "true"
 
   #Postgresql
@@ -220,5 +220,5 @@ services:
         MOODLE_ADMIN: "${MOODLE_ADMIN}"
         MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
         MOODLE_URL: "https://0.0.0.0:6446"
-        MOODLE_REVERSE_LB: "false"
+        MOODLE_REVERSE_LB: "true"
         MOODLE_SSL: "true"

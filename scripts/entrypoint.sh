@@ -114,4 +114,6 @@ MOODLE_DB_TYPE=$MOODLE_DB_TYPE php /var/www/html/admin/cli/install_database.php 
           --adminpass=${MOODLE_ADMIN_PASSWORD} \
           --agree-license
 
+MOODLE_DB_TYPE=$MOODLE_DB_TYPE php admin/cli/purge_caches.php
+
 MOODLE_DB_TYPE=$MOODLE_DB_TYPE exec "$@"
