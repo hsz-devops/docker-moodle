@@ -34,6 +34,7 @@ RUN \
  		docker-php-ext-install soap && \
  		docker-php-ext-install mcrypt && \
 		docker-php-ext-install gd && \
+		docker-php-ext-install opcache && \
 		echo "Installing moodle" && \
 		curl https://download.moodle.org/download.php/direct/stable${VERSION}/moodle-latest-${VERSION}.zip -o /tmp/moodle-latest.zip  && \
 		rm -rf /var/www/html/index.html && \
