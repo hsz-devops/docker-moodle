@@ -34,9 +34,11 @@ To spawn a new instance of Moodle:
 * ... using MySQL:
 
   ```
-  docker run -d --name DB -e MYSQL_DATABASE=moodle -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mysql
+  docker run -d --name DB -e MYSQL_DATABASE=moodle -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mysql:5.7
   docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -p 8080:80 ellakcy/moodle:mysql_maria_apache
   ```
+  > ** NOTICE **
+  > For now due to the way that mysl authenticates its users is recommended to use the earlier 5.7 version of mysql
 
 * ... using MariaDB:
 
