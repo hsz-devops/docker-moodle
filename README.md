@@ -162,6 +162,8 @@ Also you can use the following extra enviromental variables (using `-e` option o
 
 ### Enviromental Variables for Default user settings:
 
+A default user is generated during installation. Please provide different credentials during installation.
+
 Variable Name | Default value | Description
 ---- | ------ | ------
 `MOODLE_URL` | http://0.0.0.0 | The URL the site will be served from
@@ -262,6 +264,13 @@ Export the following enviromental variables:
 ```
 export DOCKER_CLIENT_TIMEOUT=120
 export COMPOSE_HTTP_TIMEOUT=120
+```
+
+In any other case please run:
+
+```
+docker-compose -f docker-compose-ssl-reverse-nginx.yml down -v --remove-orphans
+docker-compose down -v --remove-orphans
 ```
 
 ## Credits

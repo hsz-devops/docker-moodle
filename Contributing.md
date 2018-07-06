@@ -16,3 +16,17 @@ docker-compose down -v --remove-orphans
 ```
 ## Ressetting the installation
 Run the same commands as above.
+
+## HTTP timeout
+Also in case of an arror that mentions:
+
+```
+UnixHTTPConnectionPool(host='localhost', port=None): Read timed out. (read timeout=60)
+```
+
+Export the following enviromental variables:
+
+```
+export DOCKER_CLIENT_TIMEOUT=120
+export COMPOSE_HTTP_TIMEOUT=120
+```
