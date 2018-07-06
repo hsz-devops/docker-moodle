@@ -68,7 +68,7 @@ services:
 
   # Testing mariadb support
   moodle_maria_db:
-      image: mariadb
+      image: mariadb:10.2
       environment:
         MYSQL_RANDOM_ROOT_PASSWORD: "yes"
         MYSQL_ONETIME_PASSWORD: "yes"
@@ -152,7 +152,7 @@ services:
      - 'moodle_alpine_fpm_mariadb'
 
   moodle_mariadb_alpine_db:
-    image: mariadb
+    image: mariadb:10.2
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -174,7 +174,7 @@ services:
       MOODLE_ADMIN_PASSWORD: "${MOODLE_ADMIN_PASSWORD}"
       MOODLE_URL: "http://0.0.0.0:7071"
 
-    #Postgresql
+  #Postgresql
   nginx_pgsql:
       image: nginx:alpine
       ports:

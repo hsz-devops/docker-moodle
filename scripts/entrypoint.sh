@@ -44,7 +44,7 @@ if [ $HAS_MySQL_SUPPORT -gt 0 ]; then
     fi
 
     OK=0
-    for count in {1..50}; do
+    for count in {1..100}; do
       echo "Pinging mysql database attempt "${count}
       if  $(nc -z ${MOODLE_DB_HOST} ${MOODLE_DB_PORT}) ; then
         echo "Can connect into databaze"
