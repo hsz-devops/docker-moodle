@@ -254,9 +254,7 @@ Export the following enviromental variables:
 ```
 export DOCKER_CLIENT_TIMEOUT=120
 export COMPOSE_HTTP_TIMEOUT=120
-docker-compose -f docker-compose-ssl-reverse-nginx.yml down --remove-orphans
 ```
-The last command is used to remove any file related to the tests with SSL
 
 ## Credits
 
