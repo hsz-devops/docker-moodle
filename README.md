@@ -232,7 +232,11 @@ Where:
 * `^local_url_and_port^`: Url that the reverse proxy will forward the requests.
 * `^path_to_cert^`,`^path_to_key^`: The certificate and its key.
 
-As you can see the reverse proxy **DOES NOT** provide the http **Host** header accordind to [this](https://moodle.org/mod/forum/discuss.php?d=339370) issue.
+As you can see the reverse proxy **DOES NOT** provide the http **Host** header according to [this](https://moodle.org/mod/forum/discuss.php?d=339370) issue.
+
+Also keep in mind to set the following docker enviromental variables `MOODLE_REVERSE_LB` and `MOODLE_SSL` into **true** as well.
+
+
 
 ## Caveats
 
