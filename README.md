@@ -89,19 +89,19 @@ For production is recomended to create your own `docker-compose.yml` file and pr
 You can run all build containers of this repo via:
 
 ```bash
-docker compose up moodle_mysql moodle_mysql_db
+docker-compose up moodle_mysql moodle_mysql_db
 ```
 
 * Mariadb variant (uses the very same image)
 
 ```bash
-docker compose up moodle_maria_db moodle_maria
+docker-compose up moodle_maria_db moodle_maria
 ```
 
 * Postgresql variant
 
 ```bash
-docker compose up moodle_psql_db moodle_psql
+docker-compose up moodle_psql_db moodle_psql
 ```
 
 For production is recomended to create your own `docker-compose.yml` file and provide your own settings.
