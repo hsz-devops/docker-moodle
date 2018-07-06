@@ -12,7 +12,7 @@ services:
 
   # Mysql running variant
   moodle_mysql_db:
-    image: mysql
+    image: mysql:5.7
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -114,7 +114,7 @@ services:
      - 'moodle_alpine_fpm_mysql'
 
   moodle_mysql_alpine_db:
-    image: mysql
+    image: mysql:5.7
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
