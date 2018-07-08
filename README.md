@@ -266,13 +266,6 @@ export DOCKER_CLIENT_TIMEOUT=120
 export COMPOSE_HTTP_TIMEOUT=120
 ```
 
-In any other case please run:
-
-```
-docker-compose -f docker-compose-ssl-reverse-nginx.yml down -v --remove-orphans
-docker-compose down -v --remove-orphans
-```
-
 ## Credits
 
 This is a fork of [mhardison/docker-moodle](https://github.com/jmhardison/docker-moodle).

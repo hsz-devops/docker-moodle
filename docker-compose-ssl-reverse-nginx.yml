@@ -40,7 +40,7 @@ services:
 ############# Apache based variants ############################################
 
   moodle_mysql_db_reverse:
-    image: mysql
+    image: mysql:5.7
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -91,7 +91,7 @@ services:
 
   # Testing mariadb support
   moodle_maria_db_reverse:
-      image: mariadb
+      image: mariadb:10.2
       environment:
         MYSQL_RANDOM_ROOT_PASSWORD: "yes"
         MYSQL_ONETIME_PASSWORD: "yes"
@@ -130,7 +130,7 @@ services:
      - 'moodle_alpine_fpm_mysql_reverse'
 
   moodle_mysql_alpine_db_reverse:
-    image: mysql
+    image: mysql:5.7
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -169,7 +169,7 @@ services:
      - 'moodle_alpine_fpm_mariadb_reverse'
 
   moodle_mariadb_alpine_db_reverse:
-    image: mariadb
+    image: mariadb:10.2
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
