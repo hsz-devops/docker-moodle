@@ -277,17 +277,32 @@ $CFG->xsendfilealiases = array(
 // The next lines are needed both for bounce handling and any other email to module processing.
 // mailprefix must be EXACTLY four characters.
 // Uncomment and customise this block for Postfix
+//
+//      $CFG->mailprefix = 'mdl-'; // - is the separator for qmail
+// The following lines are for handling email bounces.
+//      $CFG->handlebounces = true;
+//      $CFG->minbounces = 10;
+//      $CFG->bounceratio = .20;
+// The next lines are needed both for bounce handling and any other email to module processing.
+// mailprefix must be EXACTLY four characters.
+// Uncomment and customise this block for Postfix
 //      $CFG->mailprefix = 'mdl+'; // + is the separator for Exim and Postfix.
 //      $CFG->mailprefix = 'mdl-'; // - is the separator for qmail
 //      $CFG->maildomain = 'youremaildomain.com';
 //
+//
 // Enable when setting up advanced reverse proxy load balancing configurations,
-// it may be also necessary to enable this when using port forwarding.
-//      $CFG->reverseproxy = true;
+// it may be also necessary to enable this when using port forwarding.``
+if(filter_var(getenv(MOODLE_REVERSE_LB),FILTER_VALIDATE_BOOLEAN)){
+  $CFG->reverseproxy = true;
+}
+
 //
 // Enable when using external SSL appliance for performance reasons.
 // Please note that site may be accessible via https: or https:, but not both!
-    //  $CFG->sslproxy = true;
+if(filter_var(getenv(MOODLE_SSL),FILTER_VALIDATE_BOOLEAN)){
+     $CFG->sslproxy = true;
+}
 //
 // This setting will cause the userdate() function not to fix %d in
 // date strings, and just let them show with a zero prefix.
